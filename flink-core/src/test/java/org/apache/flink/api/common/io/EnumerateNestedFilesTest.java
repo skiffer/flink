@@ -31,11 +31,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
 
-public class EnumerateNestedFilesTest { 
+public class EnumerateNestedFilesTest {
 
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	protected Configuration config;
-	final String tempPath = System.getProperty("java.io.tmpdir");
 
 	private DummyFileInputFormat format;
 
@@ -81,15 +84,13 @@ public class EnumerateNestedFilesTest {
 			String firstLevelDir = TestFileUtils.randomFileName();
 			String secondLevelDir = TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
 
 			// create a file in the first-level and two files in the nested dir
 			TestFileUtils.createTempFileInDirectory(nestedDir.getAbsolutePath(), "paella");
@@ -117,15 +118,13 @@ public class EnumerateNestedFilesTest {
 			String firstLevelDir = TestFileUtils.randomFileName();
 			String secondLevelDir = TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
 
 			// create a file in the first-level and two files in the nested dir
 			TestFileUtils.createTempFileInDirectory(nestedDir.getAbsolutePath(), "paella");
@@ -154,21 +153,18 @@ public class EnumerateNestedFilesTest {
 			String secondLevelDir = TestFileUtils.randomFileName();
 			String thirdLevelDir = TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
 
-			File nestedNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir
 					+ System.getProperty("file.separator") + thirdLevelDir);
 			nestedNestedDir.mkdirs();
-			nestedNestedDir.deleteOnExit();
 
 			// create a file in the first-level, two files in the second level and one in the third level
 			TestFileUtils.createTempFileInDirectory(nestedDir.getAbsolutePath(), "paella");
@@ -199,23 +195,19 @@ public class EnumerateNestedFilesTest {
 			String firstNestedNestedDir = TestFileUtils.randomFileName();
 			String secondNestedNestedDir = TestFileUtils.randomFileName();
 
-			File testDir = new File(tempPath + System.getProperty("file.separator") + rootDir);
+			File testDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator") + rootDir);
 			testDir.mkdirs();
-			testDir.deleteOnExit();
 
 			File nested = new File(testDir.getAbsolutePath() + System.getProperty("file.separator") + nestedDir);
 			nested.mkdirs();
-			nested.deleteOnExit();
 
 			File nestedNestedDir1 = new File(nested.getAbsolutePath() + System.getProperty("file.separator")
 					+ firstNestedNestedDir);
 			nestedNestedDir1.mkdirs();
-			nestedNestedDir1.deleteOnExit();
 
 			File nestedNestedDir2 = new File(nested.getAbsolutePath() + System.getProperty("file.separator")
 					+ secondNestedNestedDir);
 			nestedNestedDir2.mkdirs();
-			nestedNestedDir2.deleteOnExit();
 
 			// create files in second level
 			TestFileUtils.createTempFileInDirectory(nestedNestedDir1.getAbsolutePath(), "paella");
@@ -250,26 +242,23 @@ public class EnumerateNestedFilesTest {
 			String secondLevelFilterDir = "_"+TestFileUtils.randomFileName();
 			String thirdLevelFilterDir = "_"+TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + sep + firstLevelDir);
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + sep + firstLevelDir + sep + secondLevelDir);
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir + sep + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
-			File insideNestedDirFiltered = new File(tempPath + sep + firstLevelDir + sep + secondLevelFilterDir);
-			insideNestedDirFiltered.mkdirs();
-			insideNestedDirFiltered.deleteOnExit();
-			File filteredFile = new File(tempPath + sep + firstLevelDir + sep + "_IWillBeFiltered");
-			filteredFile.createNewFile();
-			filteredFile.deleteOnExit();
 
-			File nestedNestedDir = new File(tempPath + sep + firstLevelDir + sep + secondLevelDir + sep + thirdLevelDir);
+			File insideNestedDirFiltered = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir + sep + secondLevelFilterDir);
+			insideNestedDirFiltered.mkdirs();
+
+			File filteredFile = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir + sep + "_IWillBeFiltered");
+			filteredFile.createNewFile();
+
+			File nestedNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir + sep + secondLevelDir + sep + thirdLevelDir);
 			nestedNestedDir.mkdirs();
-			nestedNestedDir.deleteOnExit();
-			File nestedNestedDirFiltered = new File(tempPath + sep + firstLevelDir + sep + secondLevelDir + sep + thirdLevelFilterDir);
+
+			File nestedNestedDirFiltered = new File(temporaryFolder.getRoot().getAbsolutePath() + sep + firstLevelDir + sep + secondLevelDir + sep + thirdLevelFilterDir);
 			nestedNestedDirFiltered.mkdirs();
-			nestedNestedDirFiltered.deleteOnExit();
 
 			// create a file in the first-level, two files in the second level and one in the third level
 			TestFileUtils.createTempFileInDirectory(nestedDir.getAbsolutePath(), "paella");
@@ -300,15 +289,13 @@ public class EnumerateNestedFilesTest {
 			String firstLevelDir = TestFileUtils.randomFileName();
 			String secondLevelDir = TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
 
 			// create a file in the nested dir
 			TestFileUtils.createTempFileInDirectory(insideNestedDir.getAbsolutePath(), SIZE);
@@ -338,20 +325,17 @@ public class EnumerateNestedFilesTest {
 			String secondLevelDir = TestFileUtils.randomFileName();
 			String secondLevelDir2 = TestFileUtils.randomFileName();
 
-			File nestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File nestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir);
 			nestedDir.mkdirs();
-			nestedDir.deleteOnExit();
 
-			File insideNestedDir = new File(tempPath + System.getProperty("file.separator") 
+			File insideNestedDir = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir);
 			insideNestedDir.mkdirs();
-			insideNestedDir.deleteOnExit();
 
-			File insideNestedDir2 = new File(tempPath + System.getProperty("file.separator")
+			File insideNestedDir2 = new File(temporaryFolder.getRoot().getAbsolutePath() + System.getProperty("file.separator")
 					+ firstLevelDir + System.getProperty("file.separator") + secondLevelDir2);
 			insideNestedDir2.mkdirs();
-			insideNestedDir2.deleteOnExit();
 
 			// create a file in the first-level and two files in the nested dir
 			TestFileUtils.createTempFileInDirectory(nestedDir.getAbsolutePath(), SIZE1);
